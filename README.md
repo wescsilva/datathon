@@ -13,7 +13,7 @@ Para executar o dashboard localmente, siga estas etapas:
 
 2. **Clone este repositório:**
    ```
-   git clone https://github.com/aamandanunes/Challenge4.git
+   git clone https://github.com/aamandanunes/Datathon.git
    ```
 
 3. **Navegue até o diretório do projeto:**

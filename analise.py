@@ -1,12 +1,9 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import folium
-from geopy.geocoders import Nominatim
 import requests
 from io import StringIO
 from io import BytesIO
-import openpyxl
 
 github_csv_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PEDE_PASSOS_DATASET_FIAP.csv'
 response = requests.get(github_csv_url)
@@ -62,6 +59,9 @@ def realizar_analise():
         }
         df_porcentagem = pd.DataFrame(data)   
 
+        # Preencher valores NaN com zero
+        df_porcentagem['Ponto_Virada'].fillna(0, inplace=True)
+
         fig, ax = plt.subplots()
         ax.pie(df_porcentagem['Ponto_Virada'], labels=df_porcentagem['Ano'], autopct='%1.1f%%')
         ax.set_title('Alunos que atingiram o Ponto de Virada por Ano')
@@ -83,3 +83,5 @@ def realizar_analise():
             width = bar.get_width()
             ax.text(width, bar.get_y() + bar.get_height()/2, '{:,}'.format(int(width)), va='center', ha='left')
         st.pyplot(fig)
+
+realizar_analise()

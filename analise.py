@@ -5,21 +5,21 @@ import requests
 from io import StringIO
 from io import BytesIO
 
-github_csv_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PEDE_PASSOS_DATASET_FIAP.csv'
-response = requests.get(github_csv_url)
-
-csv_content = response.content.decode('utf-8')
-csv_string_io = StringIO(csv_content)
-df = pd.read_csv(csv_string_io, sep=';')
-
-github_xlsx_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PSE2020_domicilios.xlsx'
-response = requests.get(github_xlsx_url)
-
-xlsx_content = response.content
-xlsx_bytes_io = BytesIO(xlsx_content)
-df2 = pd.read_excel(xlsx_bytes_io)
-
 def realizar_analise():
+
+    github_csv_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PEDE_PASSOS_DATASET_FIAP.csv'
+    response = requests.get(github_csv_url)
+
+    csv_content = response.content.decode('utf-8')
+    csv_string_io = StringIO(csv_content)
+    df = pd.read_csv(csv_string_io, sep=';')
+
+    github_xlsx_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PSE2020_domicilios.xlsx'
+    response = requests.get(github_xlsx_url)
+
+    xlsx_content = response.content
+    xlsx_bytes_io = BytesIO(xlsx_content)
+    df2 = pd.read_excel(xlsx_bytes_io)
 
     aba1, aba2 = st.tabs(['Análise', 'Dados Brutos'])    
     with aba2:
@@ -83,5 +83,3 @@ def realizar_analise():
             width = bar.get_width()
             ax.text(width, bar.get_y() + bar.get_height()/2, '{:,}'.format(int(width)), va='center', ha='left')
         st.pyplot(fig)
-
-realizar_analise()

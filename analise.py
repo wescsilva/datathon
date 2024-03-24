@@ -3,16 +3,31 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import folium
 from geopy.geocoders import Nominatim
+import requests
+from io import StringIO
+from io import BytesIO
+
+github_csv_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PEDE_PASSOS_DATASET_FIAP.csv'
+response = requests.get(github_csv_url)
+
+csv_content = response.content.decode('utf-8')
+csv_string_io = StringIO(csv_content)
+df = pd.read_csv(csv_string_io, sep=';')
+
+github_xlsx_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PSE2020_domicilios.xlsx'
+response = requests.get(github_xlsx_url)
+
+xlsx_content = response.content
+xlsx_bytes_io = BytesIO(xlsx_content)
+df2 = pd.read_excel(xlsx_bytes_io)
 
 def realizar_analise():
 
     aba1, aba2 = st.tabs(['Análise', 'Dados Brutos'])    
     with aba2:
         st.write("PEDE")
-        df = pd.read_csv("Dataset/PEDE_PASSOS_DATASET_FIAP.csv", sep=';')
         st.write(df.head())
         st.write("PSE")
-        df2 = pd.read_excel("Dataset/PSE2020_domicilios.xlsx")
         st.write(df2.head())       
     with aba1:
         #Criar novas colunas para marcar se foi aluno ou naquele ano

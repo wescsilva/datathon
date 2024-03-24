@@ -6,6 +6,7 @@ from geopy.geocoders import Nominatim
 import requests
 from io import StringIO
 from io import BytesIO
+import openpyxl
 
 github_csv_url = 'https://raw.githubusercontent.com/aamandanunes/datathon/main/Dataset/PEDE_PASSOS_DATASET_FIAP.csv'
 response = requests.get(github_csv_url)

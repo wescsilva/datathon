@@ -13,12 +13,12 @@ Para executar o dashboard localmente, siga estas etapas:
 
 2. **Clone este repositório:**
    ```
-   git clone https://github.com/aamandanunes/Datathon.git
+   git clone https://github.com/aamandanunes/datathon.git
    ```
 
 3. **Navegue até o diretório do projeto:**
    ```
-   cd Datathon
+   cd datathon
    ```
 
 4. **Execute o aplicativo Streamlit:**

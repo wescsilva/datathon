@@ -41,11 +41,6 @@ def realizar_analise():
         alunos_por_ano.columns = ['index', 'values']
         fig = px.bar(alunos_por_ano, x="index", y="values", title='Quantidade de Alunos por Ano', labels=dict(values="Ano", index="Quantidade de Alunos"))
         
-        # fig, ax = plt.subplots()
-        # ax.bar(alunos_por_ano.index, alunos_por_ano.values)
-        # ax.set_xlabel('Ano')
-        # ax.set_ylabel('Quantidade de Alunos')
-        # ax.set_title('Quantidade de Alunos por Ano')
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano

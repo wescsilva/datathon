@@ -40,7 +40,8 @@ def realizar_analise():
         alunos_por_ano = df[['2020', '2021', '2022']].sum().reset_index()
         alunos_por_ano.columns = ['index', 'values']
         fig = px.bar(alunos_por_ano, x="index", y="values", title='Quantidade de Alunos por Ano', labels=dict(values="Ano", index="Quantidade de Alunos"))
-        
+        fig.update_layout(title_text = 'Quantidade de Alunos por Ano', title_x = 0.35)
+
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano
@@ -63,24 +64,16 @@ def realizar_analise():
         # Preencher valores NaN com zero
         df_porcentagem['Ponto_Virada'].fillna(0, inplace=True)
 
-        fig, ax = plt.subplots()
-        ax.pie(df_porcentagem['Ponto_Virada'], labels=df_porcentagem['Ano'], autopct='%1.1f%%')
-        ax.set_title('Alunos que atingiram o Ponto de Virada por Ano')
-        st.pyplot(fig)
+        fig = px.pie(values=df_porcentagem['Ponto_Virada'], names=df_porcentagem['Ano'], title = 'Alunos que atingiram o Ponto de Virada por Ano')
+        fig.update_layout(title_text = 'Alunos que atingiram o Ponto de Virada por Ano', title_x = 0.2)
+        st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)
 
         #Alunos bairro
         alunos_por_bairro = df2['Código do Núcleo PM'].value_counts().reset_index()
         alunos_por_bairro.columns = ['Bairro', 'Total de Alunos']
         alunos_por_bairro = alunos_por_bairro.sort_values(by='Total de Alunos', ascending=False)
 
-        fig, ax = plt.subplots(figsize=(10, 6))
-        bars = ax.barh(alunos_por_bairro['Bairro'], alunos_por_bairro['Total de Alunos'], color='skyblue')
-
-        ax.set_xlabel('Total de Alunos')
-        ax.set_ylabel('Bairro')
-        ax.set_title('Total de Alunos por Bairro')
-
-        for bar in bars:
-            width = bar.get_width()
-            ax.text(width, bar.get_y() + bar.get_height()/2, '{:,}'.format(int(width)), va='center', ha='left')
-        st.pyplot(fig)
+        fig = px.bar(y = alunos_por_bairro['Bairro'], x = alunos_por_bairro['Total de Alunos'], text_auto = True, title = 'Total de Alunos por Bairro', orientation = 'h', 
+                     labels = dict(y = 'Bairro', x = 'Total de Alunos'))
+        fig.update_layout(title_text = 'Total de Alunos por Bairro', title_x = 0.4)
+        st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)

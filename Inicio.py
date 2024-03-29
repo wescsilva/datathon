@@ -1,4 +1,5 @@
 from analise import realizar_analise
+from analise_2 import realizar_analise as realizar_analise2
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -6,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 with st.sidebar:
-    selected = option_menu("Datathon", ["Home", 'Sobre a Passos Mágicos','Análise','Modelo','Conclusão','Fontes'], 
+    selected = option_menu("Datathon", ["Home", 'Sobre a Passos Mágicos','Análise','Análise 2','Modelo','Conclusão','Fontes'], 
         icons=['house', 'book','kanban','cloud-upload','book','gear'], menu_icon="cast", default_index=0)
     selected
 
@@ -23,5 +24,8 @@ if selected == "Sobre a Passos Mágicos":
 if selected == "Análise":
     st.title("Análise dos Dados")
     realizar_analise()
+if selected == "Análise 2":
+    st.title("Análise dos Dados")
+    realizar_analise2()
 
 

@@ -20,6 +20,9 @@ def realizar_analise():
     xlsx_content = response.content
     xlsx_bytes_io = BytesIO(xlsx_content)
     df2 = pd.read_excel(xlsx_bytes_io)
+    df2.columns=['Código do domicilio','Ano de referência','Total de moradores','Código do entrevistador','Código do Núcleo PM','Condição no domicílio','Cônjuge de sexo diferente','Cônjuge do mesmo sexo','Total de filhos ou enteados','Cônjuge no domicílio','Filhos ou enteados no domicílio','Arranjo familiar','Sexo do responsável','Total de homens no domicíio','Total de mulheres no domicílio','Idade do responsável','Cor ou Raça do responsável','Relação do responsável com a APM','Total de alunos Passos Mágicos','Total de bolsistas','Total bolsistas Decisão','Total bolsistas João Paulo II','Total bolsistas Einstein','Total bosistas FIAP','Total bolsistas UNISA','Total bolsistas Estácio','Total bolsistas Outros','Total de inativos Passos Mágicos','Total PIT','Total PO','Total PD','Total trabalhadores infantis','Total FFT','Total FT','Total desempregados de longo prazo','Total trabalhadores formais','Total trabalhadores informais','Privação trabalho formal','Valor total rendas do trabalho','Total indivíduos BPC/LOAS','Valor total BPC/LOAS','Total indivíduos Bolsa Família','Valor total Bolsa Família','Total indivíduos Outros Programas','Valor total Outros Programas','Total indivíduos Aposentadoria','Valor total Aposentadoria','Total indivíduos Seguro desemprego','Valor total Seguro desemprego','Total indivíduos Pensão ou mesada','Valor total Pensão ou mesada','Total indivíduos Aluguel','Valor total Aluguel','Valor total Rendas Programas Sociais','Valor total Outras Rendas','Valor Renda total do domicílio','Origem da renda','Renda per capita','Renda per capita em faixas','Renda total em faixas','Linhas pobreza','Tipo do domicílio','Material predominante do piso','Quantos cômodos?','Quantos dormitórios?','Disponibilidade de água encanada','Quantos banheiros exclusivos?','Quantos banheiros compartilhados?','Forma de escoamento do esgoto?','Origem da energia elétrica?','Combustível usado para cozinhar?','Caracterize a propriedade do domicílio','Quantos moradores possuem telefone celular?','Possui telefone fixo?','Tem geladeira ou freezer?','Tem televisor?','Tem computador?','Tem acesso à internet?','Tem internet via celular?','Tem automóvel?','#N/D']
+    df2.drop('#N/D', inplace=True, axis=1)
+    df2['Ano de referência'] = pd.to_datetime(df2['Ano de referência'], format='%Y')
 
     aba1, aba2 = st.tabs(['Análise', 'Dados Brutos'])    
     with aba2:
@@ -68,7 +71,7 @@ def realizar_analise():
         st.pyplot(fig)
 
         #Alunos bairro
-        alunos_por_bairro = df2['V102_first'].value_counts().reset_index()
+        alunos_por_bairro = df2['Código do Núcleo PM'].value_counts().reset_index()
         alunos_por_bairro.columns = ['Bairro', 'Total de Alunos']
         alunos_por_bairro = alunos_por_bairro.sort_values(by='Total de Alunos', ascending=False)
 

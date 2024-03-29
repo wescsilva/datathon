@@ -27,7 +27,7 @@ def realizar_analise():
     st.subheader('Total de filhos ou enteados alunos da Passos Mágicos')
 
     st.write('No gráfico abaixo podemos ver a relação entre a quantidade total de filhos ou enteados no domícilio em relação ao número de alunos da Passos Mágicos.', )
-    st.write('A partir dessa relação, conseguimos dimensionar visualmente pelo tamanho dos círculos a quantidade de cada um dos cenários e evidenciar através das cores, quais cenários todos os filhos ou enteados da casa são alunos da Passos Mágicos')
+    st.write('A partir dessa relação, conseguimos dimensionar visualmente pelo tamanho dos círculos a quantidade de cada um dos cenários e evidenciar através das cores, quais destes todos os filhos ou enteados da casa são alunos da Passos Mágicos')
 
     df_total_filhos_vs_total_passos = df2.groupby(['Total de filhos ou enteados', 'Total de alunos Passos Mágicos'])['Código do domicilio'].count().reset_index()
     df_total_filhos_vs_total_passos.rename({'Código do domicilio': 'Quantidade de domicílios'}, inplace=True, axis=1)

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import requests
 from io import StringIO
 from io import BytesIO
+import plotly.express as px
 
 def realizar_analise():
 
@@ -36,14 +37,16 @@ def realizar_analise():
         df['2021'] = df['TURMA_2021'].apply(lambda x: 1 if pd.notna(x) else 0)
         df['2022'] = df['TURMA_2022'].apply(lambda x: 1 if pd.notna(x) else 0)
     
-        alunos_por_ano = df[['2020', '2021', '2022']].sum()
-
-        fig, ax = plt.subplots()
-        ax.bar(alunos_por_ano.index, alunos_por_ano.values)
-        ax.set_xlabel('Ano')
-        ax.set_ylabel('Quantidade de Alunos')
-        ax.set_title('Quantidade de Alunos por Ano')
-        st.pyplot(fig)
+        alunos_por_ano = df[['2020', '2021', '2022']].sum().reset_index()
+        alunos_por_ano.columns = ['index', 'values']
+        fig = px.bar(alunos_por_ano, x="index", y="values", title='Quantidade de Alunos por Ano', labels=dict(values="Ano", index="Quantidade de Alunos"))
+        
+        # fig, ax = plt.subplots()
+        # ax.bar(alunos_por_ano.index, alunos_por_ano.values)
+        # ax.set_xlabel('Ano')
+        # ax.set_ylabel('Quantidade de Alunos')
+        # ax.set_title('Quantidade de Alunos por Ano')
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano
         df['PONTO_VIRADA_2020'] = df['PONTO_VIRADA_2020'].map({'Sim': True, 'Não': False})

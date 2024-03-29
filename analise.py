@@ -39,7 +39,8 @@ def realizar_analise():
     
         alunos_por_ano = df[['2020', '2021', '2022']].sum().reset_index()
         alunos_por_ano.columns = ['index', 'values']
-        fig = px.bar(alunos_por_ano, x="index", y="values", title='Quantidade de Alunos por Ano', labels=dict(values="Ano", index="Quantidade de Alunos"))
+        fig = px.bar(alunos_por_ano, x="index", y="values", title='Quantidade de Alunos por Ano', labels=dict(values="Quantidade de Alunos", index="Ano"))
+        fig.update_xaxes(tickvals=alunos_por_ano['index'])
         fig.update_layout(title_text = 'Quantidade de Alunos por Ano', title_x = 0.35)
 
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)

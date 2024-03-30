@@ -21,8 +21,8 @@ def load_pse2020():
     df = pd.read_excel(xlsx_bytes_io)
     df.columns=['Código do domicilio','Ano de referência','Total de moradores','Código do entrevistador','Código do Núcleo PM','Condição no domicílio','Cônjuge de sexo diferente','Cônjuge do mesmo sexo','Total de filhos ou enteados','Cônjuge no domicílio','Filhos ou enteados no domicílio','Arranjo familiar','Sexo do responsável','Total de homens no domicíio','Total de mulheres no domicílio','Idade do responsável','Cor ou Raça do responsável','Relação do responsável com a APM','Total de alunos Passos Mágicos','Total de bolsistas','Total bolsistas Decisão','Total bolsistas João Paulo II','Total bolsistas Einstein','Total bosistas FIAP','Total bolsistas UNISA','Total bolsistas Estácio','Total bolsistas Outros','Total de inativos Passos Mágicos','Total PIT','Total PO','Total PD','Total trabalhadores infantis','Total FFT','Total FT','Total desempregados de longo prazo','Total trabalhadores formais','Total trabalhadores informais','Privação trabalho formal','Valor total rendas do trabalho','Total indivíduos BPC/LOAS','Valor total BPC/LOAS','Total indivíduos Bolsa Família','Valor total Bolsa Família','Total indivíduos Outros Programas','Valor total Outros Programas','Total indivíduos Aposentadoria','Valor total Aposentadoria','Total indivíduos Seguro desemprego','Valor total Seguro desemprego','Total indivíduos Pensão ou mesada','Valor total Pensão ou mesada','Total indivíduos Aluguel','Valor total Aluguel','Valor total Rendas Programas Sociais','Valor total Outras Rendas','Valor Renda total do domicílio','Origem da renda','Renda per capita','Renda per capita em faixas','Renda total em faixas','Linhas pobreza','Tipo do domicílio','Material predominante do piso','Quantos cômodos?','Quantos dormitórios?','Disponibilidade de água encanada','Quantos banheiros exclusivos?','Quantos banheiros compartilhados?','Forma de escoamento do esgoto?','Origem da energia elétrica?','Combustível usado para cozinhar?','Caracterize a propriedade do domicílio','Quantos moradores possuem telefone celular?','Possui telefone fixo?','Tem geladeira ou freezer?','Tem televisor?','Tem computador?','Tem acesso à internet?','Tem internet via celular?','Tem automóvel?','#N/D']
     df.drop('#N/D', inplace=True, axis=1)
-    df['Ano de referência'] = pd.to_datetime(df['Ano de referência'], format='%Y')
-    
+    df['Ano de referência'] =  pd.to_datetime(df['Ano de referência'].iloc[1:], format='%Y', errors='coerce')
+
     return df
 
 def analise_pse2020():
@@ -33,11 +33,11 @@ def analise_pse2020():
     alunos_por_bairro.columns = ['Bairro', 'Total de Alunos']
     alunos_por_bairro = alunos_por_bairro.sort_values(by='Total de Alunos', ascending=False)
 
-    fig = px.bar(y = alunos_por_bairro['Bairro'], x = alunos_por_bairro['Total de Alunos'], text_auto = True, title = 'Total de Alunos por Bairro', orientation = 'h', 
+    fig = px.bar(y = alunos_por_bairro['Bairro'], x = alunos_por_bairro['Total de Alunos'], text_auto = True, title = 'Total de Alunos por Bairro', orientation = 'h',
                     labels = dict(y = 'Bairro', x = 'Total de Alunos'))
     fig.update_layout(title_text = 'Total de Alunos por Bairro', title_x = 0.4)
     st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)
-    
+
     st.subheader('Total de filhos ou enteados alunos da Passos Mágicos')
 
     st.write('No gráfico abaixo podemos ver a relação entre a quantidade total de filhos ou enteados no domícilio em relação ao número de alunos da Passos Mágicos.', )
@@ -47,7 +47,7 @@ def analise_pse2020():
     df_total_filhos_vs_total_passos.rename({'Código do domicilio': 'Quantidade de domicílios'}, inplace=True, axis=1)
     df_total_filhos_vs_total_passos['Todos são alunos da Passos Mágicos'] = df_total_filhos_vs_total_passos['Total de filhos ou enteados'] == df_total_filhos_vs_total_passos['Total de alunos Passos Mágicos']
     df_total_filhos_vs_total_passos['Todos são alunos da Passos Mágicos'] = df_total_filhos_vs_total_passos['Todos são alunos da Passos Mágicos'].replace(True, 'Sim').replace(False, 'Não')
-    
+
     fig = px.scatter(df_total_filhos_vs_total_passos, x="Total de filhos ou enteados", y="Total de alunos Passos Mágicos", size="Quantidade de domicílios",
            color='Todos são alunos da Passos Mágicos', log_x=True, size_max=60, color_discrete_map={
                 "Sim": "green",
@@ -74,7 +74,7 @@ def analise_pse2020():
     fig15 = px.density_heatmap(heatmap_data, x='Renda per capita', y='Total de alunos Passos Mágicos', z='count',
                                 title='Relação entre Renda Per Capita e Quantidade de Alunos Passos Mágicos',
                                 labels={'Renda per capita': 'Renda per capita', 'Total de alunos Passos Mágicos': 'Total de Alunos Passos Mágicos'})
-    
+
     # Configurar a escala de cores do gráfico
     fig15.update_traces(colorscale='Viridis', reversescale=True)
 
@@ -93,6 +93,7 @@ def analise_pse2020():
 
     # Gráfico de barras: Média de Renda Per Capita por categoria de acesso à internet
     st.subheader('Média de Renda Per Capita por Categoria de Acesso à Internet')
+    df['Renda per capita'] = pd.to_numeric(df['Renda per capita'], errors='coerce')
     renda_por_internet = df.groupby('Tem acesso à internet?')['Renda per capita'].mean()
     fig18 = px.bar(renda_por_internet, x=renda_por_internet.index, y=renda_por_internet.values, color=renda_por_internet.index,
                     title='Média de Renda Per Capita por Categoria de Acesso à Internet',

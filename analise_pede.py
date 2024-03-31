@@ -33,39 +33,10 @@ def analise_pede():
     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
     st.write('Cada vez mais as crianças poderão mudar o rumo da suas vidas, traçando um futuro melhor através da educação.')
 
-    #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano
-
-    st.subheader('Indicador do Ponto de Virada - IPV')
-    st.write('Estágio do desenvolvimento do estudante para demonstrar de forma ativa, por meio da sua trajetória dentro da associação, que o aluno está consciente da importância da educação, do valor de saber e da importância de aprender.')
-    st.write('A avaliação é realizada pelos pedagogos e professores, as questões de avaliação consideram a integração do aluno na associação, desenvolvimento emocional do aluno e potencial acadêmico.')
-    st.write('Cada elemento avaliado possui pesos e valores, o aluno é avaliado se possui desempenho positivo, suficiente, insuficiente e se apresenta dificuldades.')
-
-    df['PONTO_VIRADA_2020'] = df['PONTO_VIRADA_2020'].map({'Sim': True, 'Não': False})
-    df['PONTO_VIRADA_2021'] = df['PONTO_VIRADA_2021'].map({'Sim': True, 'Não': False})
-    df['PONTO_VIRADA_2022'] = df['PONTO_VIRADA_2022'].map({'Sim': True, 'Não': False})
-
-    porcentagem_ponto_virada_2020 = df['PONTO_VIRADA_2020'].mean() * 100
-    porcentagem_ponto_virada_2021 = df['PONTO_VIRADA_2021'].mean() * 100
-    porcentagem_ponto_virada_2022 = df['PONTO_VIRADA_2022'].mean() * 100
-
-    data = {
-        'Ano': ['2020', '2021', '2022'],
-        'Ponto_Virada': [porcentagem_ponto_virada_2020,
-                                                    porcentagem_ponto_virada_2021,
-                                                    porcentagem_ponto_virada_2022]
-    }
-    df_porcentagem = pd.DataFrame(data)
-
-    # Preencher valores NaN com zero
-    df_porcentagem['Ponto_Virada'].fillna(0, inplace=True)
-
-    fig = px.pie(values=df_porcentagem['Ponto_Virada'], names=df_porcentagem['Ano'], title = 'Alunos que atingiram o Ponto de Virada por Ano')
-    fig.update_layout(title_text = 'Alunos que atingiram o Ponto de Virada por Ano')
-    st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)
-
-    st.write('O indicador não se trata de um ponto de chegada, mas que o aluno está apto para iniciar a transformação na vida por meio da educação. Sendo assim, podemos dizer que 1/3 dos alunos que ingressaram na associação puderam iniciar esta transformação. ')
-
     # Distribuição de Notas por Disciplina em 2022
+    st.subheader('Aulas')
+    st.write('A Associação Passos Mágicos oferece aulas de alfabetização, língua portuguesa e matemática para crianças e adolescentes, de 7 a 17 anos, que sejam baixa renda e moradores do município de Embu-Guaçu. Os alunos são divididos por nível de conhecimento, determinado por meio de uma prova de sondagem que é realizada ao ingressarem na Passos Mágicos, e são inseridos em turmas que variam da alfabetização até o nível 8.')
+
     df_media_notas = df[['NOTA_PORT_2022', 'NOTA_MAT_2022', 'NOTA_ING_2022']].mean().reset_index()
     df_media_notas.columns = ['Disciplina', 'Média']
     df_media_notas = df_media_notas.replace('NOTA_PORT_2022', 'Português 2022')
@@ -97,11 +68,23 @@ def analise_pede():
              title='Nota Média por Disciplina e Status de Bolsista')
     st.plotly_chart(fig)
 
+    st.write('Com as aulas, além da bagagem cultural oferecida, a partir de atividades estruturadas para que haja melhor aproveitamento do conteúdo, o acompanhamento torna possível que os alunos se capacitem para superar suas dificuldades acadêmicas e aprimorar suas habilidades.')
+    st.write('Em cada uma das disciplinas são apresentadas atividades que instiguem as crianças e os adolescentes a acessarem sua criatividade e que despertem o interesse pela busca do saber. Dentre elas, atividades complementares pedagógicas, envolvendo desde o exercício da leitura e da escrita, até o desenvolvimento de projetos artísticos que possibilitem um contato mais dinâmico com as matérias.')
+
+
     # Desempenho por Nível Ideal em 2022
+    st.subheader('Indicador de Autoavaliação - IAA')
+    st.write('Durante a jornada do aluno na associação e além do conteúdo acadêmico, a associação busca entender como o estudando se autoavalia. Dentre as várias formas de acompanhar a criança, a IAA (Indicador de Autoavaliação) traz por meio dos seus resultados, respostas sobre os aspectos da vida do aluno e da sua experiência cotidiana, com questões sobre os sentimentos do estudando em relação a si mesmo, sobre os estudos, sobre sua vida familiar, relação com os amigos, sobre a Passos mágicos e em relação aos professores.')
+
     fig7 = px.bar(df, x='NIVEL_IDEAL_2022', y='IAA_2022', color='NIVEL_IDEAL_2022', title='Desempenho (IAA_2022) em 2022 por Nível Ideal')
     st.plotly_chart(fig7)
 
+
     # Correlação entre Desempenho e Recomendações da Equipe em 2022
+    st.subheader('Indicador Psicopedagógico - IPP')
+    st.write('O IPP é uma avaliação realizados educadores e psicopedagogos para caracterizar o desenvolvimento cognitivo, emocional, comportamental e da socialização do aluno no seu processo de aprendizado dentro do Programa de Aceleração de Conhecimento.')
+    st.write('As questões avaliam se o aluno possui adequação e autonomia, uma boa adequação geral, se possui interações disfuncionais ou se está em atendimento terapêutico. ')
+
     rec_equipe_1 = df[['REC_EQUIPE_1_2021']]
     rec_equipe_1['Equipe'] = 'Equipe 1 2021'
     rec_equipe_1.columns = ['Recomendação', 'Equipe']
@@ -134,3 +117,36 @@ def analise_pede():
              labels={'y': 'Quantidade de Alunos'},
              title='Recomendação dos Alunos por Equipe (2021)')
     st.plotly_chart(fig)
+    st.write('As recomendações finais sugerem se o estudante deveria ser promovido de fase e indicador para bolsas, se deveria ser mantido na fase atual e indicado para bolsas, se deveria ser promovido de fases sem indicação para bolsas, se deveria ser mantido na fase e sem indicação para bolsa ou se deveria ser recuado de fase.')
+
+    #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano
+
+    st.subheader('Indicador do Ponto de Virada - IPV')
+    st.write('Estágio do desenvolvimento do estudante para demonstrar de forma ativa, por meio da sua trajetória dentro da associação, que o aluno está consciente da importância da educação, do valor de saber e da importância de aprender.')
+    st.write('A avaliação é realizada pelos pedagogos e professores, as questões de avaliação consideram a integração do aluno na associação, desenvolvimento emocional do aluno e potencial acadêmico.')
+    st.write('Cada elemento avaliado possui pesos e valores, o aluno é avaliado se possui desempenho positivo, suficiente, insuficiente e se apresenta dificuldades.')
+
+    df['PONTO_VIRADA_2020'] = df['PONTO_VIRADA_2020'].map({'Sim': True, 'Não': False})
+    df['PONTO_VIRADA_2021'] = df['PONTO_VIRADA_2021'].map({'Sim': True, 'Não': False})
+    df['PONTO_VIRADA_2022'] = df['PONTO_VIRADA_2022'].map({'Sim': True, 'Não': False})
+
+    porcentagem_ponto_virada_2020 = df['PONTO_VIRADA_2020'].mean() * 100
+    porcentagem_ponto_virada_2021 = df['PONTO_VIRADA_2021'].mean() * 100
+    porcentagem_ponto_virada_2022 = df['PONTO_VIRADA_2022'].mean() * 100
+
+    data = {
+        'Ano': ['2020', '2021', '2022'],
+        'Ponto_Virada': [porcentagem_ponto_virada_2020,
+                                                    porcentagem_ponto_virada_2021,
+                                                    porcentagem_ponto_virada_2022]
+    }
+    df_porcentagem = pd.DataFrame(data)
+
+    # Preencher valores NaN com zero
+    df_porcentagem['Ponto_Virada'].fillna(0, inplace=True)
+
+    fig = px.pie(values=df_porcentagem['Ponto_Virada'], names=df_porcentagem['Ano'], title = 'Alunos que atingiram o Ponto de Virada por Ano')
+    fig.update_layout(title_text = 'Alunos que atingiram o Ponto de Virada por Ano')
+    st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)
+
+    st.write('O indicador não se trata de um ponto de chegada, mas que o aluno está apto para iniciar a transformação na vida por meio da educação. Sendo assim, podemos dizer que 1/3 dos alunos que ingressaram na associação puderam iniciar esta transformação. ')

@@ -56,15 +56,20 @@ def analise_pse2020():
     fig.update_layout(title_text = 'Total de filhos ou enteados alunos da Passos Mágicos', title_x = 0.2)
     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
+        # Gráfico de violino para distribuição da idade do responsável por cor ou raça
+    st.subheader('Distribuição da Idade do Responsável por Quantidade de Filhos ou Enteados')
+    fig7 = px.violin(df, x='Total de filhos ou enteados', y='Idade do responsável', title='Distribuição da Idade do Responsável por Total de Filhos ou Enteados')
+    st.plotly_chart(fig7)
+
     # Gráfico de dispersão para total de moradores em relação à renda per capita
+    st.subheader('Renda Per Capita em relação ao Total de Moradores')
+    st.write('Os gráficos a seguir refletem as condições reais de vida das famílias atendidas pela Passos Mágicos. Ela parte de uma visão integral do ser humano, que compreende que a educação não está desconectada das condições materiais de vida, da organização familiar.')
+    st.write('Nestas relações buscamos demonstrar a vulnerabilidade social e da precariedade das condições de vida da população atendida pela Associação. ')
+
     st.subheader('Renda Per Capita em relação ao Total de Moradores')
     fig2 = px.scatter(df, x='Total de moradores', y='Renda per capita', title='Renda Per Capita em relação ao Total de Moradores')
     st.plotly_chart(fig2)
 
-    # Gráfico de violino para distribuição da idade do responsável por cor ou raça
-    st.subheader('Distribuição da Idade do Responsável por Quantidade de Filhos ou Enteados')
-    fig7 = px.violin(df, x='Total de filhos ou enteados', y='Idade do responsável', title='Distribuição da Idade do Responsável por Total de Filhos ou Enteados')
-    st.plotly_chart(fig7)
 
     # Criar um DataFrame para o gráfico de calor
     heatmap_data = df.groupby(['Renda per capita', 'Total de alunos Passos Mágicos']).size().reset_index(name='count')
@@ -80,10 +85,14 @@ def analise_pse2020():
 
     st.plotly_chart(fig15)
 
+    st.write('A renda média domiciliar, com base na PSE 2020, abaixo de 4 salários-mínimos abrange 83,5% das famílias pesquisadas. ')
+
     # Gráfico de dispersão para renda per capita em relação ao número de filhos ou enteados no domicílio
     st.subheader('Renda Per Capita em relação ao Número de Filhos ou Enteados no Domicílio')
     fig12 = px.scatter(df, x='Total de filhos ou enteados', y='Renda per capita', title='Renda Per Capita em relação ao Número de Filhos ou Enteados no Domicílio')
     st.plotly_chart(fig12)
+
+    st.write('A renda per capita corresponde a um pouco mais de um terço da renda per capita do estado de São Paulo, e um pouco menos do que a metade da renda per capita estimada para o munícipio de Embu-Guaçu, medidas que demonstram que a população atendida tem privações severas à renda.')
 
     # Gráfico de pizza para distribuição do tipo de domicílio
     st.subheader('Distribuição do Tipo de Domicílio')
@@ -93,6 +102,8 @@ def analise_pse2020():
 
     # Gráfico de barras: Média de Renda Per Capita por categoria de acesso à internet
     st.subheader('Média de Renda Per Capita por Categoria de Acesso à Internet')
+    st.write('De acordo com uma pesquisa realizada pelo IBGE, 7,2 milhões de famílias não tinham acesso à internet (2021), sendo a maioria esmagadora estudantes de escolas públicas. Em Embu-Guaçu, estes reflexos que podem ser observados nos gráficos que demonstram que grande parte da população não possui acesso à internet, reforçando a exclusão digital.')
+
     df['Renda per capita'] = pd.to_numeric(df['Renda per capita'], errors='coerce')
     renda_por_internet = df.groupby('Tem acesso à internet?')['Renda per capita'].mean()
     fig18 = px.bar(renda_por_internet, x=renda_por_internet.index, y=renda_por_internet.values, color=renda_por_internet.index,
@@ -107,3 +118,5 @@ def analise_pse2020():
                     title='Total de Alunos Passos Mágicos por Faixa de Pobreza',
                     labels={'x': 'Faixa de Pobreza', 'y': 'Total de Alunos Passos Mágicos'})
     st.plotly_chart(fig19)
+
+    st.write('Com base nos dados, podemos observar que as famílias atendidas e os alunos acolhidos pela ONG estão em uma condição de vulnerabilidade social muito alta. A assistência da Passos Mágicos através da educação tem papel fundamental na vida destas crianças e, consequentemente, nas famílias. A forma que Associação incentiva os alunos pela busca do saber, pelo desenvolvimento pessoal e acadêmico possibilita a transformação e evolução dos jovens e do meio em que vivem. ')

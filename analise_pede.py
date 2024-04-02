@@ -82,7 +82,7 @@ def analise_pede():
 
     # Correlação entre Desempenho e Recomendações da Equipe em 2022
     st.subheader('Indicador Psicopedagógico - IPP')
-    st.write('O IPP é uma avaliação realizados educadores e psicopedagogos para caracterizar o desenvolvimento cognitivo, emocional, comportamental e da socialização do aluno no seu processo de aprendizado dentro do Programa de Aceleração de Conhecimento.')
+    st.write('O IPP é uma avaliação realizada educadores e psicopedagogos para caracterizar o desenvolvimento cognitivo, emocional, comportamental e da socialização do aluno no seu processo de aprendizado dentro do Programa de Aceleração de Conhecimento.')
     st.write('As questões avaliam se o aluno possui adequação e autonomia, uma boa adequação geral, se possui interações disfuncionais ou se está em atendimento terapêutico. ')
 
     rec_equipe_1 = df[['REC_EQUIPE_1_2021']]
@@ -117,7 +117,7 @@ def analise_pede():
              labels={'y': 'Quantidade de Alunos'},
              title='Recomendação dos Alunos por Equipe (2021)')
     st.plotly_chart(fig)
-    st.write('As recomendações finais sugerem se o estudante deveria ser promovido de fase e indicador para bolsas, se deveria ser mantido na fase atual e indicado para bolsas, se deveria ser promovido de fases sem indicação para bolsas, se deveria ser mantido na fase e sem indicação para bolsa ou se deveria ser recuado de fase.')
+    st.write('As recomendações finais sugerem se o estudante deveria ser promovido de fase e indicado para bolsas, se deveria ser mantido na fase atual e indicado para bolsas, se deveria ser promovido de fase sem indicação para bolsas, se deveria ser mantido na fase e sem indicação para bolsa ou se deveria ser recuado de fase.')
 
     #Calcular a porcentagem de alunos que atingiram o ponto de virada em cada ano
 
@@ -150,3 +150,4 @@ def analise_pede():
     st.plotly_chart(fig, theme = 'streamlit', use_container_width = True)
 
     st.write('O indicador não se trata de um ponto de chegada, mas que o aluno está apto para iniciar a transformação na vida por meio da educação. Sendo assim, podemos dizer que 1/3 dos alunos que ingressaram na associação puderam iniciar esta transformação. ')
+

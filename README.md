@@ -8,7 +8,7 @@ Para executar o dashboard localmente, siga estas etapas:
 
 1. **Instale as bibliotecas necessárias:**
    ```
-   pip install streamlit pandas matplotlib folium geopy
+   pip install streamlit pandas matplotlib folium geopy scikit-learn
    ```
 
 2. **Clone este repositório:**
